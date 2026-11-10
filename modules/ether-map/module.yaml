@@ -1,0 +1,29 @@
+description: "Map engine vertical for Ether - geospatial transforms, polygon triangulation, mesh building (OSM/features scenes), cameras with the 2D/3D mode policy, streaming, and the map runtime."
+
+product:
+  type: kmp/lib
+  platforms: [ jvm, linuxX64, wasmJs ]
+
+repositories:
+  - url: mavenLocal
+    publish: true
+
+dependencies:
+  - ../ether-core
+  - ../ether-math
+  - ../ether-map-data
+  - ../ether-render-api
+  - ../ether-render-core
+
+test-dependencies:
+  - ../ether-testing
+  - ../ether-render-null
+
+settings:
+  kotlin:
+    explicitApi: strict
+  publishing:
+    enabled: true
+    group: dev.instrum.ether
+    artifactId: ether-map
+    version: 0.1.0
