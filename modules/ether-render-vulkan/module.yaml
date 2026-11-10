@@ -12,10 +12,15 @@ test-dependencies:
   - ../ether-testing
   - ../ether-render-core
 
+repositories:
+  - url: mavenLocal
+    publish: true
+
 settings:
   kotlin:
     explicitApi: strict
   publishing:
+    enabled: true
     group: dev.instrum.ether
     artifactId: ether-render-vulkan
     version: 0.1.0

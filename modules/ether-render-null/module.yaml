@@ -4,6 +4,10 @@ product:
   type: kmp/lib
   platforms: [ jvm, android, linuxX64, mingwX64, wasmJs, iosArm64, iosSimulatorArm64 ]
 
+repositories:
+  - url: mavenLocal
+    publish: true
+
 dependencies:
   - ../ether-render-api:
       exported: true
@@ -12,6 +16,7 @@ settings:
   kotlin:
     explicitApi: strict
   publishing:
+    enabled: true
     group: dev.instrum.ether
     artifactId: ether-render-null
     version: 0.1.0
