@@ -1,0 +1,26 @@
+description: "Vulkan rendering backend for the JVM - LWJGL bindings, native library bootstrap, and GPU execution."
+
+product: jvm/lib
+
+repositories:
+  - url: mavenLocal
+    publish: true
+
+dependencies:
+  - ../ether-render-api:
+      exported: true
+  - org.lwjgl:lwjgl:3.4.3
+  - org.lwjgl:lwjgl-vulkan:3.4.3
+
+test-dependencies:
+  - ../ether-testing
+  - ../ether-render-core
+
+settings:
+  kotlin:
+    explicitApi: strict
+  publishing:
+    enabled: true
+    group: dev.instrum.ether
+    artifactId: ether-render-lwjgl
+    version: 0.1.0
