@@ -1,0 +1,23 @@
+description: "Rendering device facade, validation, resource registry, command encoding, and render graph."
+
+product:
+  type: kmp/lib
+  platforms: [ jvm, android, linuxX64, mingwX64, wasmJs, iosArm64, iosSimulatorArm64 ]
+
+dependencies:
+  - ../ether-render-api:
+      exported: true
+  - ../ether-core:
+      exported: true
+
+test-dependencies:
+  - ../ether-testing
+  - ../ether-render-null
+
+settings:
+  kotlin:
+    explicitApi: strict
+  publishing:
+    group: dev.instrum.ether
+    artifactId: ether-render-core
+    version: 0.1.0

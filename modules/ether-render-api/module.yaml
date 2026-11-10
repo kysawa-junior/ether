@@ -1,0 +1,13 @@
+description: "Portable rendering types for Ether - handles, descriptors, capabilities, and backend contracts."
+
+product:
+  type: kmp/lib
+  platforms: [ jvm, android, linuxX64, mingwX64, wasmJs, iosArm64, iosSimulatorArm64 ]
+
+settings:
+  kotlin:
+    explicitApi: strict
+  publishing:
+    group: dev.instrum.ether
+    artifactId: ether-render-api
+    version: 0.1.0

@@ -1,0 +1,21 @@
+description: "Real Vulkan rendering backend for linuxX64 - dynamic loader, device bring-up, and GPU execution."
+
+product:
+  type: kmp/lib
+  platforms: [ linuxX64 ]
+
+dependencies:
+  - ../ether-render-api:
+      exported: true
+
+test-dependencies:
+  - ../ether-testing
+  - ../ether-render-core
+
+settings:
+  kotlin:
+    explicitApi: strict
+  publishing:
+    group: dev.instrum.ether
+    artifactId: ether-render-vulkan
+    version: 0.1.0

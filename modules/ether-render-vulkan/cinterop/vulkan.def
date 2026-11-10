@@ -1,0 +1,4 @@
+package = dev.instrum.ether.render.vulkan.internal.vkc
+headers = vulkan/vulkan.h
+headerFilter = vulkan/*
+compilerOpts = -DVK_NO_PROTOTYPES

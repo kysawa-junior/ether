@@ -1,0 +1,8 @@
+modules:
+  - ./modules/ether-core
+  - ./modules/ether-math
+  - ./modules/ether-render-api
+  - ./modules/ether-render-core
+  - ./modules/ether-render-null
+  - ./modules/ether-render-vulkan
+  - ./modules/ether-testing

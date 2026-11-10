@@ -1,0 +1,17 @@
+description: "Headless null rendering backend for tests, tools, and capability validation."
+
+product:
+  type: kmp/lib
+  platforms: [ jvm, android, linuxX64, mingwX64, wasmJs, iosArm64, iosSimulatorArm64 ]
+
+dependencies:
+  - ../ether-render-api:
+      exported: true
+
+settings:
+  kotlin:
+    explicitApi: strict
+  publishing:
+    group: dev.instrum.ether
+    artifactId: ether-render-null
+    version: 0.1.0

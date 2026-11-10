@@ -1,0 +1,20 @@
+description: "Core engine services for Ether - logging, time, configuration, events, and lifecycle."
+
+product:
+  type: kmp/lib
+  platforms: [ jvm, android, linuxX64, mingwX64, wasmJs, iosArm64, iosSimulatorArm64 ]
+
+dependencies:
+  - ../ether-math:
+      exported: false
+
+test-dependencies:
+  - ../ether-testing
+
+settings:
+  kotlin:
+    explicitApi: strict
+  publishing:
+    group: dev.instrum.ether
+    artifactId: ether-core
+    version: 0.1.0
