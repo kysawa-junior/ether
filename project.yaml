@@ -1,5 +1,6 @@
 modules:
   - ./modules/ether-core
+  - ./modules/ether-map-data
   - ./modules/ether-math
   - ./modules/ether-render-api
   - ./modules/ether-render-core

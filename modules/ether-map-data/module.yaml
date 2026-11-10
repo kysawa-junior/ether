@@ -1,0 +1,22 @@
+description: "Versioned map package contract (urban-map-package v1) - manifest, tiles, features, validation, and JSON decoding for all Ether targets."
+
+product:
+  type: kmp/lib
+  platforms: [ jvm, linuxX64, wasmJs ]
+
+repositories:
+  - url: mavenLocal
+    publish: true
+
+dependencies:
+  - $kotlin.serialization.json
+
+settings:
+  kotlin:
+    serialization: enabled
+    explicitApi: strict
+  publishing:
+    enabled: true
+    group: dev.instrum.ether
+    artifactId: ether-map-data
+    version: 0.1.0
