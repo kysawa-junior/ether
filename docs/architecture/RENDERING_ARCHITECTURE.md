@@ -483,7 +483,9 @@ None of this exists yet; the current core renders only into application-owned te
 | Backend | Targets | Status | Validation requirement |
 |---|---|---|---|
 | Null | all | Implemented, tested (8 backend tests + 77 core tests) | Validation and lifetime behavior; no GPU work |
-| Vulkan 1.3 | linuxX64, Android | Implemented on linuxX64, tested (3 smoke tests on RADV PHOENIX); Android not started | Draw a frame on linuxX64 done via smoke test; Android on device/emulator pending |
+| Vulkan 1.3 (native) | linuxX64 | Implemented, tested (3 smoke tests on RADV PHOENIX) | Draw a frame on linuxX64 done via smoke test |
+| Vulkan 1.3 (LWJGL) | JVM | Implemented (`ether-render-lwjgl`), probe + device bring-up; command execution exercised by backend tests | Frame on real device smoke test pending (see ADR-0022) |
+| Vulkan 1.3 (native) | Android | Not started | Draw a frame on device/emulator |
 | WebGL2 | wasmJs, js | Not started | Draw a frame in Chromium via CI |
 | Metal | macOS, iOS | Not started (later) | Draw a frame on macOS CI |
 | WebGPU | wasmJs, js | Not started (optional, later) | Browser feature detection + frame |

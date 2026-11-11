@@ -607,3 +607,70 @@ which includes an explicit patent grant.
 
 - *MIT.* Simpler, but lacks an explicit patent grant.
 - *GPL.* Rejected: incompatible with the goal of broad engine adoption.
+
+---
+
+## ADR-0021: Map engine vertical as `ether-map`
+
+**Status:** Accepted (2026-11-10)
+
+**Context.** The Urban project carried a JVM-only map engine (`engine-standalone/`) duplicating
+work Ether already had: math, lifecycle, logging, error types, and a portable render API. The
+engine's scene, camera, geospatial, streaming, OSM, and runtime layers existed nowhere else, and
+the product needed them on more than the JVM.
+
+**Decision.** Port the map engine into Ether as the `ether-map` KMP vertical (JVM, linuxX64,
+wasmJs), together with the versioned cartographic contract as `ether-map-data` (`urban-map-package`
+v1). The vertical builds on the shared contracts only: `ether-core` (lifecycle, config, logging),
+`ether-math`, `ether-render-api`/`ether-render-core`. The 2D/3D camera swap is the user-configurable
+`MapModePolicy` (220 m close / 420 m far thresholds, hysteresis, one mode per frame); startup is
+Overhead2D.
+
+**Port substitutions.** `V3` → `Vec3` (Float); `Mat4` → `ether-math`; `WorldBounds`/`BoundingBox` →
+`Aabb`; `BoundingSphere` → `ether-math`; `GeographicPoint`/`GeographicBounds` → shared
+`GeoPoint`/`GeoBounds` (no range validation, no `contains`); `CoordinateProjector` +
+`LocalEnuTransform` unified into one type; vertex layout/submesh/tangent layers, the material
+library, `registerResource`, and the decorative `CullMode`/`InstanceBatch` queue parameters were
+dropped (no consumer; the pipeline bakes per-vertex color).
+
+**Consequences.**
+
+- The Urban project consumes the vertical instead of owning a second engine (see Urban ADR-007).
+- Divergences from the removed engine are documented in code (OSM reader inputs, fleet RNG,
+  streaming distance metric, `loadNext` drain-on-failure).
+- The pixel presentation path (offscreen render + host readback through the portable core) is not
+  implemented; the map frame path is validated headless through `ether-render-null`.
+- 89 unique tests across the vertical (306/306/303 on JVM/linuxX64/wasmJs, measured 2026-11-10).
+
+**Alternatives rejected.**
+
+- *Keep two engines.* Rejected: duplicated scene/camera/geospatial/streaming drift apart.
+- *Port into the render HAL.* Rejected: map semantics are a vertical over the contracts, not a
+  backend concern.
+
+---
+
+## ADR-0022: JVM Vulkan backend through LWJGL
+
+**Status:** Accepted (2026-11-10)
+
+**Context.** `ether-render-vulkan` is linuxX64-only (native loader, no JVM). Desktop consumers
+(Compose Desktop apps) run on the JVM and need a Vulkan backend there; LWJGL 3.4.3 already ships
+the Vulkan bindings and the platform native bootstrap.
+
+**Decision.** Provide `ether-render-lwjgl` (JVM-only) implementing the same `RenderBackend` HAL
+through LWJGL: `LwjglVulkanBackend` probes Vulkan 1.3 dynamic rendering (cached, failure
+remembered), bootstraps the LWJGL natives from packaged resources (`NativeBootstrap`), and executes
+the recorded command stream. It depends on `ether-render-api` (exported) and LWJGL `core` +
+`vulkan` 3.4.3.
+
+**Consequences.**
+
+- JVM desktop targets get real GPU execution without the native module.
+- `BackendKind.Vulkan` is shared with `ether-render-vulkan`; selection is by availability probe,
+  and the mandatory null backend remains the fallback.
+- The native library ships inside the published artifact (`natives/linux/liblwjgl.so`); other
+  platforms need their LWJGL natives artifact added per host.
+- No window surface/swap-chain yet (same Phase 2 boundary as the native backend): rendering is
+  offscreen.
+

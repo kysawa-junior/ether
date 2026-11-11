@@ -9,7 +9,43 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-#### `ether-render-vulkan` (Linux x64)
+#### `ether-map` (map engine vertical) and `ether-map-data` (ADR-0021)
+
+- The map engine of the removed Urban `engine-standalone/` project ported as a KMP vertical
+  (JVM, linuxX64, wasmJs), `explicitApi: strict`, zero compiler warnings: OSM streaming XML reader
+  (String/UTF-8 bytes, numeric/named entities, `.gz` rejected with an explicit message) and the
+  feature mapper; local ENU projection with WebMercator XYZ tiles, spatial index and validation;
+  ear-clipping triangulation with hole bridging; building/road/box mesh builders with a central
+  style; scene assembly from OSM stores and cartographic packages, scene graph with cycle checks,
+  Möller–Trumbore raycast and screen projection, deterministic simulated fleet; orbit camera with
+  the user-configurable `MapModePolicy` (220 m / 420 m swap thresholds with hysteresis, one mode
+  per frame, startup Overhead2D), Vulkan-convention projections (Y-flip, depth 0..1) and frustum
+  extraction; tile streaming with LRU byte budget, distance prioritization and package-backed
+  loader; frustum-culling render queue with batching/instancing/layers and a recorder-backed frame
+  renderer; `MapRuntime` and the transactional `MapEngine`.
+- Divergences from the removed engine documented in code: unified ENU type, shared `GeoPoint`/
+  `GeoBounds`, consistent streaming distance metric (both sides projected into local meters),
+  `loadNext` drains recorded failures, deterministic Kotlin RNG for the fleet, decorative queue
+  parameters (`CullMode`, `InstanceBatch`) dropped.
+- `ether-map-data` carries the shared `urban-map-package` v1 contract (manifest, `TileReference`,
+  `FeatureRecord`, `MapPackageLoader.decodeFeatures`, validation) used by the vertical, the web
+  runtime and the compiler.
+- Measured suite: 306 tests on JVM, 306 on linuxX64, 303 on wasmJs (89 unique in `ether-map`),
+  0 failures; headless frame path validated with `ether-render-null` (recorder submissions,
+  `waitIdle`, `liveResourceCount == 0` after close).
+
+#### `ether-render-lwjgl` (JVM) (ADR-0022)
+
+- JVM Vulkan backend through LWJGL 3.4.3: `LwjglVulkanBackend` probes a Vulkan 1.3
+  dynamic-rendering device (cached probe, remembered failures), `LwjglBackendDevice` implements the
+  backend HAL (buffers, textures, samplers, SPIR-V shader modules, render pipelines, command
+  buffers), and the Linux/x64 `liblwjgl.so` ships inside the artifact (`natives/linux/`), extracted
+  at runtime by `NativeBootstrap`.
+
+### Changed
+
+- `MapSceneRenderer.close()` now also destroys the two shader modules it created (previously
+  leaked against the device registry).
 
 - Real Vulkan backend implemented on `linuxX64`: opens the loader (`libvulkan.so.1`) via `dlopen`
   with no build-time Vulkan link, probes a device (`VulkanProbe`), and implements the backend HAL

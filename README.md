@@ -3,12 +3,14 @@
 Ether is a 2D/3D game engine and rendering library for Kotlin Multiplatform. It is built around
 explicit lifecycles, capability-based rendering, and a hybrid hierarchical scene + ECS model.
 
-**Status: Phase 2 rendering foundation implemented. The Linux x64 Vulkan backend is implemented
-and smoke-tested on real hardware; WebGL2 and presentation are the next milestone.** The
-repository contains a tested math library, the core engine services, a portable render API, a
-validated rendering core with a linear render graph, a headless null backend, and a Vulkan backend
-that rasterizes into offscreen textures on Linux. There is no window, surface/swap-chain, scene
-graph, or asset pipeline.
+**Status: Phase 2 rendering foundation plus the map engine vertical. The Linux x64 native and JVM
+(LWJGL) Vulkan backends are implemented and smoke-tested on real hardware (AMD RADV PHOENIX,
+Mesa); WebGL2 and window presentation are the next milestone.** The repository contains a tested
+math library, the core engine services, a portable render API, a validated rendering core with a
+linear render graph, a headless null backend, two Vulkan backends (linuxX64 native, JVM via
+LWJGL), the versioned cartographic contract `ether-map-data`, and the `ether-map` engine vertical
+(OSM reading, ENU projection, mesh building, scene, orbit camera with the 2D/3D mode policy,
+streaming, render queue, map runtime).
 
 ## What exists today
 
@@ -20,10 +22,14 @@ graph, or asset pipeline.
 | `ether-render-api` | Typed handles, descriptors, capabilities/limits, render passes, commands, backend HAL | Implemented, 20 tests |
 | `ether-render-core` | Device facade, generational registry, validation, encoder/translator, deferred free, linear render graph, backend selection | Implemented, 77 tests |
 | `ether-render-null` | Headless backend with deterministic automatic/manual submission completion | Implemented, 8 tests |
-| `ether-render-vulkan` | Real GPU backend: loader via `dlopen`, device probe, staging buffers, offscreen rasterization, readback | Implemented on Linux x64, 3 real-device smoke tests |
+| `ether-render-vulkan` | Real GPU backend (linuxX64): loader via `dlopen`, device probe, staging buffers, offscreen rasterization, readback | Implemented on Linux x64, 3 real-device smoke tests |
+| `ether-render-lwjgl` | JVM Vulkan backend: LWJGL 3.4.3 bindings, packaged native bootstrap, capability probe | Implemented (ADR-0022); frame smoke test pending |
+| `ether-map-data` | `urban-map-package` v1 contract: manifest, tiles, features, validation, JSON decoding | Implemented |
+| `ether-map` | Map engine vertical: OSM reader/mapper, ENU + XYZ tiles, triangulation, mesh builders, scene/graph/raycast/fleet, orbit camera + `MapModePolicy`, streaming (LRU + package loader), render queue, recorder renderer, `MapRuntime`, `MapEngine` | Implemented, 89 unique tests |
 
-The portable suite is **197 tests** across six modules; it passes on JVM, Linux x64, and headless
-Wasm. The Linux x64 native run adds the 3 Vulkan smoke tests, for 200 tests total.
+The full suite is **306 tests** on JVM, **306** on linuxX64 and **303** on wasmJs (89 unique tests
+in `ether-map`); 0 failures, measured 2026-11-10. The Linux x64 native run adds the 3 Vulkan smoke
+tests.
 
 Design decisions and research are documented:
 
