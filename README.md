@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/ether-icon.png" alt="Ether logo" width="200" />
+  <img src="assets/ether-icon.png" alt="Ether logo" width="250"/>
   <p>
     <a href="https://github.com/kysawa-junior/ether"><img src="https://img.shields.io/badge/Kotlin-Multiplatform-7F52FF?logo=kotlin&logoColor=white" alt="Kotlin Multiplatform" /></a>
     <a href="https://github.com/kysawa-junior/ether/blob/main/LICENSE"><img src="https://img.shields.io/github/license/kysawa-junior/ether?color=0EA5E9" alt="Apache 2.0 license" /></a>
