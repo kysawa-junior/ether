@@ -1,4 +1,22 @@
-# Ether
+<div align="center">
+  <img src="assets/ether-icon.png" alt="Ether logo" width="176" />
+  <p>
+    <a href="https://github.com/kysawa-junior/ether"><img src="https://img.shields.io/badge/Kotlin-Multiplatform-7F52FF?logo=kotlin&logoColor=white" alt="Kotlin Multiplatform" /></a>
+    <a href="https://github.com/kysawa-junior/ether/blob/main/LICENSE"><img src="https://img.shields.io/github/license/kysawa-junior/ether?color=0EA5E9" alt="Apache 2.0 license" /></a>
+    <img src="https://img.shields.io/badge/Engine-2D%20%2F%203D-2563EB" alt="2D and 3D engine" />
+    <img src="https://img.shields.io/badge/Status-In%20Development-F59E0B" alt="In development" />
+  </p>
+  <p>
+    <a href="#-overview">Overview</a> ·
+    <a href="#-modules">Modules</a> ·
+    <a href="#-quick-start">Quick start</a> ·
+    <a href="#-platform-status">Platform status</a> ·
+    <a href="#-roadmap">Roadmap</a>
+  </p>
+</div>
+
+---
+
 
 Ether is a 2D/3D game engine and rendering library for Kotlin Multiplatform. It is built around
 explicit lifecycles, capability-based rendering, and a hybrid hierarchical scene + ECS model.
